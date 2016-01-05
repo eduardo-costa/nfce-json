@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["nfce","json","parser"],
   "description": "Loader and parser of the Brazilian NFCe data as JSON",
-  "version": "1.0.3",
-  "releasenotes": "1.0.3",
+  "version": "1.0.4",
+  "releasenotes": "1.0.4",
   "contributors": ["eduardo-costa"],
   "dependencies": 
   {

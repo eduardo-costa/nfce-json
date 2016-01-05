@@ -1,7 +1,7 @@
 {
   "name": "nfce-json",
   
-  "version": "1.0.3",
+  "version": "1.0.4",
   
   "description": "Loader and parser of the Brazilian NFCe data as JSON",
   

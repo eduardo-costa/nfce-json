@@ -1,5 +1,5 @@
 
-var NFCE 		= require("nfce-json").NFCE;
+var NFCE 		= require("../tool/index.js").NFCE;
 
 NFCE.load("43151293015006000890651050000132661681112959","rs",
 function(p_res,p_err)
