@@ -8,7 +8,7 @@
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
-    <movie version="1" />
+    <movie version="0" />
     <movie minorVersion="0" />
     <movie platform="JavaScript" />
     <movie background="#FFFFFF" />
@@ -52,8 +52,8 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Webserver" />
-    <option testMovieCommand="deploy\index-js.html" />
+    <option testMovie="Custom" />
+    <option testMovieCommand="deploy\Run.bat" />
   </options>
   <!-- Plugin storage -->
   <storage />

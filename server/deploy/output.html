@@ -1,0 +1,270 @@
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <title>Público em Geral / Nota Fiscal Eletrônica / Consulta Completa da NF-e</title>
+    <link type="text/css" rel="stylesheet" href="../../include/sefazNFE.css" />
+    <link type="text/css" rel="stylesheet" href="../../include/estilo_aaeNFE.css" />
+    <link type="text/css" rel="stylesheet" href="../../include/AAENovo.css" />
+    <script type="text/javascript" src="../../include/jQuery/jquery-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="tableNFe.css" />
+
+    <script type="text/javascript" src="../../include/SEF_funcoes.js"></script>
+
+    <script type="text/javascript">
+
+        var naoimprimirTitulo = true;
+        var botaovoltar = true;
+
+        function trocaAba(aba) {
+            form1.aba.value = aba;
+            form1.submit();
+        }
+
+        //retorna imagem adequada, ou logo NF-e ou brasao RS
+        function imagemLogo() {
+            if(getUf()['uf'] == 'RS') return 'brasao_rs_small.png';
+            return 'logo_nfe_p.gif';
+        }
+        
+        //retorna UF para layout de impressão
+        function getUf() {
+            var uf = '43151293015006000890651020000122061582681260'.substring(0,2);
+            switch (uf) {
+                case '12': return {'uf':'AC', 'ext':'do Acre' };
+                case '27': return {'uf':'AL', 'ext':'de Alagoas' };
+                case '13': return {'uf':'AM', 'ext':'do Amazonas' };
+                case '16': return {'uf':'AP', 'ext':'do Amapá' };
+                case '29': return {'uf':'BA', 'ext':'da Bahia' };
+                case '23': return {'uf':'CE', 'ext':'do Ceará' };
+                case '53': return {'uf':'DF', 'ext':'do Distrito Federal' };
+                case '32': return {'uf':'ES', 'ext':'do Espírito Santo' };
+                case '52': return {'uf':'GO', 'ext':'de Goiás' };
+                case '21': return {'uf':'MA', 'ext':'do Maranhão' };
+                case '31': return {'uf':'MG', 'ext':'do Mato Grosso' };
+                case '50': return {'uf':'MS', 'ext':'do Mato Grosso do Sul' };
+                case '51': return {'uf':'MT', 'ext':'de Minas Gerais' };
+                case '15': return {'uf':'PA', 'ext':'da Paraíba' };
+                case '25': return {'uf':'PB', 'ext':'do Paraná' };
+                case '26': return {'uf':'PE', 'ext':'de Pernambuco' };
+                case '22': return {'uf':'PI', 'ext':'do Piauí' };
+                case '41': return {'uf':'PR', 'ext':'do Paraná' };
+                case '33': return {'uf':'RJ', 'ext':'do Rio de Janeiro' };
+                case '24': return {'uf':'RN', 'ext':'do Rio Grande do Norte' };
+                case '11': return {'uf':'RO', 'ext':'de Rondônia' };
+                case '14': return {'uf':'RR', 'ext':'de Roraima' };
+                case '43': return {'uf':'RS', 'ext':'do Rio Grande do Sul' };
+                case '42': return {'uf':'SC', 'ext':'de Santa Catarina' };
+                case '28': return {'uf':'SE', 'ext':'de Sergipe' };
+                case '35': return {'uf':'SP', 'ext':'de São Paulo' };
+                case '17': return {'uf':'TO', 'ext':'do Tocantins' };
+            }
+        }
+        
+        function imprimirNFe() {
+            var dataAtual = new Date();
+            var janela = window.open('', 'winNFeCompleta', 'top=50,left=50,width=800,height=600,scrollbars=yes');
+            var HTML = '<html>';
+            
+            HTML += '<LINK rel=\"STYLESHEET\" href=\"Estilos/nfe-vis.css\" type=\"text/css\">';
+            HTML += '<style type"text/css" media="print">';
+            HTML +=     '.notprint {overflow: hidden;display: none;}';
+            HTML += '</style>';
+            HTML += '<style type="text/css">';
+            HTML +=     '.toggle { background-image:none !important; }';
+            HTML +=     '.toggable { display: block !important; }';
+            HTML += '</style>';
+            HTML += '<title>Impressão NFe</title><body><div class="notprint"><input type="button" value="Imprimir" onClick="window.print();">&nbsp;&nbsp;&nbsp;<input type="button" value="Fechar" onClick="window.close();"><hr noshade></div>';
+            HTML += '<table width="500" align="center" border="0" cellpadding="0" cellspacing="0" class="textoVerdana9bold">';
+            HTML += '<tr><td width="70" align="center"><img src="Imagens/' + imagemLogo() + '" height="67"></td>';
+            HTML += '<td align="center" valign="middle"><strong>GOVERNO DO ESTADO ' + getUf()['ext'].toUpperCase() + '<br>SECRETARIA DA FAZENDA<br><br>Nota Fiscal Eletrônica<br>Impresso ' + dataAtual.toLocaleDateString() + ' às ' + dataAtual.toLocaleTimeString() + '</strong></td></tr></table><br>';
+            HTML += document.getElementById('NFe').innerHTML;
+            HTML += '<br />';
+            if (document.getElementById('CCe'))
+            HTML += document.getElementById('CCe').innerHTML
+            HTML += '<br />';
+            HTML += document.getElementById('Emitente').innerHTML;
+            HTML += '<br />';
+            HTML += document.getElementById('DestRem').innerHTML;
+            HTML += '<br />';
+            HTML += document.getElementById('Prod').innerHTML;
+            HTML += '<br />';
+            HTML += document.getElementById('Totais').innerHTML;
+            HTML += '<br />';
+            HTML += document.getElementById('Transporte').innerHTML;
+            HTML += '<br />';
+            if (document.getElementById('Cobranca'))
+            HTML += document.getElementById('Cobranca').innerHTML;
+            HTML += '<br />';
+            HTML += document.getElementById('Inf').innerHTML;
+            HTML += '<br />';
+            if (document.getElementById('Avulsa'))
+            HTML += document.getElementById('Avulsa').innerHTML;
+            HTML += '<br />';
+            HTML += '</body></html>';
+            
+            janela.document.write(HTML);
+            janela.document.close();
+        }
+        
+        function abrirAutorizacaoUso() {
+            var par = '?chaveNFe=43151293015006000890651020000122061582681260';
+            par += '&HML=false';
+            par += '&acao=AUT';
+            par += '&MsgUsuario=';
+            
+            window.open('SAT-WEB-NFE_IMPRESSAO.asp' + par, 'autorizacaoUso', 'top=50,left=50,width=760,height=600,scrollbars=yes');
+        }
+        
+        function visualizarNfce(){
+            
+            var chave = '?chaveNFe=43151293015006000890651020000122061582681260';
+            chave += '&HML=false';
+            chave += '&NF=9FFCBAFEC'
+            self.location='SAT-WEB-NFE-NFC_2.asp' + chave + ''
+        }
+        
+    </script>
+
+    <style type="text/css">
+        td { font-family: Verdana; font-color: black; font-size: 10px; color: #000000; }
+        table { border: thin; }
+    </style>
+</head>
+<body style="margin: 0px;">
+
+    <script type="text/javascript" src="../../include/AAE_Cabecalho.js"></script>
+
+    <form method="POST" name="form1" action="">
+        <input type="hidden" name="aba" />
+        <input type="hidden" name="trans" id="trans" />
+        <input type="hidden" name="robo" value="" />
+        <input type="hidden" name="MsgUsuario" value="" />
+        <input type="hidden" name="chaveNFe" value="43151293015006000890651020000122061582681260" />
+        <input type="hidden" name="HML" value="false" />
+        <br />
+        <table width="800" border="0" cellpadding="0" cellspacing="0" class="textoArial8">
+            <tr>
+                <td valign="top">
+                    <html><link rel="stylesheet" type="text/css" href="https://nfe-extranet.sefazvirtual.rs.gov.br/apl/nfe/programas/Estilos/xslt.css?rand=548798"><script language="javascript" src="https://nfe-extranet.sefazvirtual.rs.gov.br/apl/nfe/programas/Scripts/jquery-1.2.6.pack.js?rand=2597439"></script><script language="javascript" src="https://nfe-extranet.sefazvirtual.rs.gov.br/apl/nfe/programas/Scripts/jquery-1.2.6.min.js?rand=894317"></script><script language="javascript" src="https://nfe-extranet.sefazvirtual.rs.gov.br/apl/nfe/programas/Scripts/nfe-vis.js?rand=17955575"></script><body><div class="GeralXslt"><h1>
+          Consulta da NF-e
+          </h1><fieldset><legend>Dados Gerais</legend><table class="box"><tr><td><label>Chave de Acesso</label><span>4315 1293 0150 0600 0890 6510 2000 0122 0615 8268 1260</span></td><td class="fixo-nro-serie"><label>Número</label><span>12206</span></td><td class="fixo-versao-xml"><label>Versão XML</label><span>3.10</span></td></tr></table></fieldset></div><br><ul id="botoes_nft"><li class="nftselected" id="tab_0" onclick="mostraAba(0)"><b>
+              NFe
+            </b></li><li id="tab_1" onclick="mostraAba(1)"><b>Emitente</b></li><li id="tab_2" onclick="mostraAba(2)"><b>Destinatário</b></li><li id="tab_3" onclick="mostraAba(3)"><b>Produtos e Serviços</b></li><li id="tab_4" onclick="mostraAba(4)"><b>Totais</b></li><li id="tab_5" onclick="mostraAba(5)"><b>Transporte</b></li><li id="tab_6" onclick="mostraAba(6)"><b>Cobrança</b></li><li id="tab_7" onclick="mostraAba(7)"><b>Informações Adicionais</b></li></ul><div class="aba_container" style="clear:both;"><div id="aba_nft_0" class="nft" style="display:block; "><div id="NFe" class="GeralXslt"><fieldset><legend class="titulo-aba">Dados da NF-e</legend><table class="box"><tr><td><label>Modelo</label><span>65</span></td><td><label>Série</label><span>102</span></td><td><label>Número</label><span>12206</span></td><td><label>Data de Emissão</label><span>30/12/2015 18:06:33-02:00</span></td><td><label>
+                      Data Saída/Entrada
+                    </label><span></span></td><td><label>Valor Total da Nota Fiscal  </label><span>106,97</span></td></tr></table></fieldset><fieldset><legend>Emitente</legend><table class="box"><tr><td class="col-5"><label>CNPJ</label><span>93.015.006/0008-90</span></td><td class="col-2"><label>Nome / Razão Social</label><span>COMPANHIA ZAFFARI COMÉRCIO E INDÚSTRIA</span></td><td class="col-5"><label>Inscrição Estadual</label><span>0960424717</span></td><td class="col-10"><label>UF</label><span>RS</span></td></tr></table></fieldset><fieldset><legend>Destinatário</legend><table class="box"><tr><td class="col-5"><label>CPF</label><span>003.669.240-95</span></td><td class="col-2"><label>Nome / Razão Social</label><span></span></td><td class="col-5"><label>Inscrição Estadual</label><span></span></td><td class="col-10"><label>UF</label><span></span></td></tr><tr><td class="col-5"><label>Destino da operação</label><span>
+                      1 - Operação Interna
+                    </span></td><td class="col-2"><label>Consumidor final</label><span>
+                      1 - Consumidor final
+                    </span></td><td colspan="2" class="col-3"><label>Presença do Comprador</label><span>
+                      1 - Operação presencial
+                    </span></td></tr></table></fieldset><fieldset><legend>Emissão</legend><table class="box"><tr><td><label>Processo</label><span>
+                      0 - com aplicativo do Contribuinte
+                    </span></td><td><label>Versão do Processo</label><span>0</span></td><td><label>
+                Tipo de Emissão</label><span>1 - Normal</span></td><td><label>Finalidade</label><span>
+                      1 - Normal
+                    </span></td></tr><tr><td><label>Natureza da Operação</label><span>VENDA A VISTA</span></td><td><label>Tipo da Operação</label><span>
+                      1 - Saída
+                    </span></td><td><label>Forma de Pagamento</label><span>
+                      0 - À vista
+                    </span></td><td><label><i>Digest</i> Value da NF-e
+              </label><span>IqiKclbs7pFlnJQkXdS+x6OmMUk=</span></td></tr></table></fieldset><fieldset><legend>
+          Situação Atual:
+          
+            AUTORIZADA
+          
+          (Ambiente de autorização:
+           produção)
+        </legend><table class="box"><tr><td><label>Eventos da NF-e</label></td><td><label>Protocolo</label></td><td><label>Data Autorização</label></td><td><label>Data Inclusão BD</label></td></tr><tr><td><span>
+                    Autorização de Uso
+                  </span></td><td><span>143150136952326<input type="hidden" id="nProt" value="143150136952326"></span></td><td><span>30/12/2015 
+        às
+      18:06:34-02:00</span></td><td><span>30/12/2015 às 18:06:34</span></td></tr></table></fieldset></div></div><div id="aba_nft_1" class="nft"><div id="Emitente" class="GeralXslt"><fieldset><legend class="titulo-aba">Dados do Emitente</legend><table class="box"><tr class="col-2"><td><label>Nome / Razão Social</label><span>COMPANHIA ZAFFARI COMÉRCIO E INDÚSTRIA</span></td><td><label>Nome Fantasia</label><span></span></td></tr><tr><td><label>CNPJ</label><span>93.015.006/0008-90</span></td><td><label>Endereço</label><span>RUA CABRAL, 
+                600 
+                </span></td></tr><tr><td><label>Bairro / Distrito</label><span>RIO BRANCO</span></td><td><label>CEP</label><span>90420-121</span></td></tr><tr><td><label>Município</label><span>4314902
+                -
+                PORTO ALEGRE</span></td><td><label>Telefone</label><span>(51)3379-4900</span></td></tr><tr><td><label>UF</label><span>RS</span></td><td><label>País</label><span>1058
+                    -
+                  BRASIL</span></td></tr><tr><td><label>Inscrição Estadual</label><span>0960424717</span></td><td><label>Inscrição Estadual do Substituto Tributário</label><span></span></td></tr><tr><td><label>Inscrição Municipal</label><span>27619826</span></td><td><label>Município da Ocorrência do Fato Gerador do ICMS</label><span>4314902</span></td></tr><tr><td><label>CNAE Fiscal</label><span>4711301</span></td><td><label>Código de Regime Tributário</label><span>
+                      3 - Regime Normal
+                    </span></td></tr></table></fieldset></div></div><div id="aba_nft_2" class="nft"><div id="DestRem" op="1" class="GeralXslt"><fieldset><legend class="titulo-aba">Dados do Destinatário</legend><table class="box"><tr class="col-2"><td colspan="3"><label>Nome / Razão Social</label><span></span></td></tr><tr class="col-2"><td colspan="2"><label>CPF</label><span>003.669.240-95</span></td><td><label>Endereço</label><span> 
+                  </span></td></tr><tr><td colspan="2"><label>Bairro / Distrito</label><span></span></td><td><label>CEP</label><span></span></td></tr><tr><td colspan="2"><label>Município</label><span></span></td><td><label>Telefone</label><span></span></td></tr><tr><td colspan="2"><label>UF</label><span></span></td><td><label>País</label><span></span></td></tr><tr><td style="width:25%"><label>Indicador IE</label><span>
+                      09 - Não Contribuinte, que pode ou não possuir Inscrição Estadual no Cadastro de Contribuintes do ICMS
+                    </span></td><td style="width:25%"><label>Inscrição Estadual</label><span></span></td><td style="width:50%"><label>Inscrição SUFRAMA</label><span></span></td></tr><tr><td><label>IM</label><span></span></td><td colspan="2"><label>E-mail</label><span></span></td></tr></table></fieldset></div></div><div id="aba_nft_4" class="nft"><div id="Totais" class="GeralXslt"><fieldset><legend class="titulo-aba">Totais</legend><fieldset><legend>
+            ICMS
+          </legend><table class="box"><tr class="col-4"><td><label>Base de Cálculo ICMS</label><span>0,00</span></td><td><label>Valor do ICMS</label><span>0,00</span></td><td><label>Valor do ICMS Desonerado</label><span>0,00</span></td><td><label>Base de Cálculo ICMS ST</label><span>0,00</span></td></tr><tr><td><label>Valor ICMS Substituição</label><span>0,00</span></td><td><label>
+                  Valor Total dos Produtos
+                </label><span>106,97</span></td><td><label>Valor do Frete</label><span>0,00</span></td><td><label>Valor do Seguro</label><span>0,00</span></td></tr><tr><td><label>Outras Despesas Acessórias</label><span>0,00</span></td><td><label>Valor Total do IPI</label><span>0,00</span></td><td><label>Valor Total da NFe</label><span>106,97</span></td><td><label>Valor Total dos Descontos</label><span>0,00</span></td></tr><tr><td><label>Valor Total do II</label><span>0,00</span></td><td><label>Valor do PIS</label><span>0,12</span></td><td><label>Valor da COFINS</label><span>0,53</span></td><td><label>Valor Aproximado dos Tributos</label><span>0,00</span></td></tr></table></fieldset></fieldset></div></div><div id="aba_nft_5" class="nft"><div id="Transporte" class="GeralXslt"><fieldset><legend class="titulo-aba">Dados do Transporte</legend><table class="box"><tr><td><label>Modalidade do Frete</label><span>
+                    9 - Sem Frete
+                  </span></td></tr></table></fieldset></div></div><div id="aba_nft_6" class="nft"><div id="Cobranca" class="GeralXslt"><fieldset><legend class="titulo-aba">Formas de Pagamento</legend><fieldset><table class="box"><tr class="col-5"><td><label>Forma de Pagamento</label></td><td><label>Valor do Pagamento</label></td><td><label>CNPJ da Credenciadora </label></td><td><label>Bandeira da operadora</label></td><td><label> Número de autorização </label></td></tr><tr><td><span>
+                        4 - Cartão de Débito
+                      </span></td><td><span>106,97</span></td><td><span>01027058000191</span></td><td><span>
+                        99 - Outros
+                      </span></td><td><span>665169</span></td></tr></table></fieldset></fieldset></div></div><div id="aba_nft_7" class="nft"><div id="Inf" class="GeralXslt"><fieldset><legend class="titulo-aba">
+          Informações Adicionais
+        </legend><div id="Versao">
+          XSLT:
+    v3.1.3
+  </div><table class="box"><tr><td colspan="3"><label>Formato de Impressão DANFE</label><span>4 - DANFE NFC-e</span></td></tr></table><fieldset><legend>Informações Complementares de Interesse do Contribuinte</legend><table class="box"><tr><td><label>Descrição</label><span><div style="word-wrap: break-word">Trib aprox R$ 16,16 Federal, R$ 17,32 Estadual Fonte: IBPT                                       5oi7eW</div></span></td></tr></table></fieldset></fieldset></div></div><div id="aba_nft_3" class="nft"><div id="Prod" class="GeralXslt"><fieldset><legend class="titulo-aba">Dados dos Produtos e Serviços</legend><div><table class="prod-serv-header box"><tr><td class="fixo-prod-serv-numero"><label>Num.</label></td><td class="fixo-prod-serv-descricao"><label>Descrição</label></td><td class="fixo-prod-serv-qtd"><label>Qtd.</label></td><td class="fixo-prod-serv-uc"><label>Unidade Comercial</label></td><td class="fixo-prod-serv-vb"><label>Valor(R$)</label></td></tr></table><table class="toggle box"><tr><td class="fixo-prod-serv-numero"><span>1</span></td><td class="fixo-prod-serv-descricao"><span>CX CERV STELLA ARTOIS LT 8X269ML</span></td><td class="fixo-prod-serv-qtd"><span>2,0000</span></td><td class="fixo-prod-serv-uc"><span>UN</span></td><td class="fixo-prod-serv-vb"><span>47,84</span></td></tr></table><table class="toggable box" style="background-color:#ECECEC"><tr><td><table class="box"><tr class="col-4"><td colspan="4"><label>Código do Produto</label><span>7891149103072</span></td><td colspan="4"><label>Código NCM</label><span>22030000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Código EX da TIPI</label><span></span></td><td colspan="4"><label>CFOP</label><span>5405</span></td><td colspan="4"><label>Outras Despesas Acessórias</label><span></span></td></tr><tr><td colspan="4"><label>Valor do Desconto</label><span></span></td><td colspan="4"><label>Valor Total do Frete</label><span></span></td><td colspan="4"><label>Valor do Seguro</label><span></span></td></tr></table><br><table class="box"><tr class="col-12"><td colspan="12"><label>
+                          Indicador de Composição do Valor Total da NF-e
+                        </label><span>
+                              1 - O valor do item (vProd) compõe o valor total da NF-e (vProd)
+                            </span></td></tr><tr class="col-3"><td colspan="4"><label>Código EAN Comercial</label><span>7891149103072</span></td><td colspan="4"><label>Unidade Comercial</label><span>UN</span></td><td colspan="4"><label>Quantidade Comercial</label><span>2,0000</span></td></tr><tr><td colspan="4"><label>Código EAN Tributável</label><span>7891149103072</span></td><td colspan="4"><label>Unidade Tributável</label><span>UN</span></td><td colspan="4"><label>Quantidade Tributável</label><span>2,0000</span></td></tr><tr><td colspan="4"><label>Valor unitário de comercialização</label><span>23,9200000000</span></td><td colspan="4"><label>Valor unitário de tributação</label><span>23,9200000000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Número do pedido de compra</label><span></span></td><td colspan="4"><label>Item do pedido de compra</label><span></span></td><td><label>Valor Aproximado dos Tributos</label><span></span></td></tr><tr><td colspan="4"><label>Número da FCI</label><span></span></td></tr><tr><td colspan="12"><fieldset><legend>ICMS Normal e ST</legend><table class="box"><tr class="col-3"><td><label>Origem da Mercadoria</label><span>0 - Nacional</span></td><td colspan="2"><label>Tributação do ICMS</label><span>60 - ICMS cobrado anteriormente por substituição tributária</span></td><td><label>Valor da BC do ICMS ST retido</label><span></span></td></tr><tr class="col-3"><td><label>Valor do ICMS ST retido</label><span></span></td></tr></table></fieldset></td></tr><tr><td colspan="12"><fieldset><legend class="toggle">PIS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>04 - Operação Tributável (tributação monofásica (alíquota zero))</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr><td colspan="12"><fieldset><legend class="toggle">COFINS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>04 - Operação Tributável (tributação monofásica (alíquota zero))</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr></tr><tr></tr><tr><td colspan="12"></td></tr></table></td></tr></table><table class="toggle box"><tr class="highlighted"><td class="fixo-prod-serv-numero"><span>2</span></td><td class="fixo-prod-serv-descricao"><span>LOMBO SUINO RESFRIADO</span></td><td class="fixo-prod-serv-qtd"><span>1,0337</span></td><td class="fixo-prod-serv-uc"><span>KG</span></td><td class="fixo-prod-serv-vb"><span>17,47</span></td></tr></table><table class="toggable box" style="background-color:#ECECEC"><tr><td><table class="box"><tr class="col-4"><td colspan="4"><label>Código do Produto</label><span>2591210000006</span></td><td colspan="4"><label>Código NCM</label><span>02031200</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Código EX da TIPI</label><span></span></td><td colspan="4"><label>CFOP</label><span>5405</span></td><td colspan="4"><label>Outras Despesas Acessórias</label><span></span></td></tr><tr><td colspan="4"><label>Valor do Desconto</label><span></span></td><td colspan="4"><label>Valor Total do Frete</label><span></span></td><td colspan="4"><label>Valor do Seguro</label><span></span></td></tr></table><br><table class="box"><tr class="col-12"><td colspan="12"><label>
+                          Indicador de Composição do Valor Total da NF-e
+                        </label><span>
+                              1 - O valor do item (vProd) compõe o valor total da NF-e (vProd)
+                            </span></td></tr><tr class="col-3"><td colspan="4"><label>Código EAN Comercial</label><span>2591210000006</span></td><td colspan="4"><label>Unidade Comercial</label><span>KG</span></td><td colspan="4"><label>Quantidade Comercial</label><span>1,0337</span></td></tr><tr><td colspan="4"><label>Código EAN Tributável</label><span>2591210000006</span></td><td colspan="4"><label>Unidade Tributável</label><span>KG</span></td><td colspan="4"><label>Quantidade Tributável</label><span>1,0337</span></td></tr><tr><td colspan="4"><label>Valor unitário de comercialização</label><span>16,9000000000</span></td><td colspan="4"><label>Valor unitário de tributação</label><span>16,9000000000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Número do pedido de compra</label><span></span></td><td colspan="4"><label>Item do pedido de compra</label><span></span></td><td><label>Valor Aproximado dos Tributos</label><span></span></td></tr><tr><td colspan="4"><label>Número da FCI</label><span></span></td></tr><tr><td colspan="12"><fieldset><legend>ICMS Normal e ST</legend><table class="box"><tr class="col-3"><td><label>Origem da Mercadoria</label><span>0 - Nacional</span></td><td colspan="2"><label>Tributação do ICMS</label><span>60 - ICMS cobrado anteriormente por substituição tributária</span></td><td><label>Valor da BC do ICMS ST retido</label><span></span></td></tr><tr class="col-3"><td><label>Valor do ICMS ST retido</label><span></span></td></tr></table></fieldset></td></tr><tr><td colspan="12"><fieldset><legend class="toggle">PIS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>06 - Operação Tributável (alíquota zero)</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr><td colspan="12"><fieldset><legend class="toggle">COFINS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>06 - Operação Tributável (alíquota zero)</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr></tr><tr></tr><tr><td colspan="12"></td></tr></table></td></tr></table><table class="toggle box"><tr><td class="fixo-prod-serv-numero"><span>3</span></td><td class="fixo-prod-serv-descricao"><span>PEPINO TAUA SUAVE           300G</span></td><td class="fixo-prod-serv-qtd"><span>1,0000</span></td><td class="fixo-prod-serv-uc"><span>UN</span></td><td class="fixo-prod-serv-vb"><span>6,98</span></td></tr></table><table class="toggable box" style="background-color:#ECECEC"><tr><td><table class="box"><tr class="col-4"><td colspan="4"><label>Código do Produto</label><span>7891031112403</span></td><td colspan="4"><label>Código NCM</label><span>20011000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Código EX da TIPI</label><span></span></td><td colspan="4"><label>CFOP</label><span>5405</span></td><td colspan="4"><label>Outras Despesas Acessórias</label><span></span></td></tr><tr><td colspan="4"><label>Valor do Desconto</label><span></span></td><td colspan="4"><label>Valor Total do Frete</label><span></span></td><td colspan="4"><label>Valor do Seguro</label><span></span></td></tr></table><br><table class="box"><tr class="col-12"><td colspan="12"><label>
+                          Indicador de Composição do Valor Total da NF-e
+                        </label><span>
+                              1 - O valor do item (vProd) compõe o valor total da NF-e (vProd)
+                            </span></td></tr><tr class="col-3"><td colspan="4"><label>Código EAN Comercial</label><span>7891031112403</span></td><td colspan="4"><label>Unidade Comercial</label><span>UN</span></td><td colspan="4"><label>Quantidade Comercial</label><span>1,0000</span></td></tr><tr><td colspan="4"><label>Código EAN Tributável</label><span>7891031112403</span></td><td colspan="4"><label>Unidade Tributável</label><span>UN</span></td><td colspan="4"><label>Quantidade Tributável</label><span>1,0000</span></td></tr><tr><td colspan="4"><label>Valor unitário de comercialização</label><span>6,9800000000</span></td><td colspan="4"><label>Valor unitário de tributação</label><span>6,9800000000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Número do pedido de compra</label><span></span></td><td colspan="4"><label>Item do pedido de compra</label><span></span></td><td><label>Valor Aproximado dos Tributos</label><span></span></td></tr><tr><td colspan="4"><label>Número da FCI</label><span></span></td></tr><tr><td colspan="12"><fieldset><legend>ICMS Normal e ST</legend><table class="box"><tr class="col-3"><td><label>Origem da Mercadoria</label><span>0 - Nacional</span></td><td colspan="2"><label>Tributação do ICMS</label><span>60 - ICMS cobrado anteriormente por substituição tributária</span></td><td><label>Valor da BC do ICMS ST retido</label><span></span></td></tr><tr class="col-3"><td><label>Valor do ICMS ST retido</label><span></span></td></tr></table></fieldset></td></tr><tr><td colspan="12"><fieldset><legend class="toggle">PIS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>01 - Operação Tributável (base de cálculo = valor da operação alíquota normal (cumulativo/não cumulativo))</span></td></tr><tr class="col-3"><td><label>Base de Cálculo</label><span>6,98</span></td><td><label>Alíquota</label><span>1,6500</span></td><td><label>Valor</label><span>0,12</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr><td colspan="12"><fieldset><legend class="toggle">COFINS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>01 - Operação Tributável (base de cálculo = valor da operação alíquota normal (cumulativo/não cumulativo))</span></td></tr><tr class="col-3"><td><label>Base de Cálculo</label><span>6,98</span></td><td><label>Alíquota</label><span>7,6000</span></td><td><label>Valor</label><span>0,53</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr></tr><tr></tr><tr><td colspan="12"></td></tr></table></td></tr></table><table class="toggle box"><tr class="highlighted"><td class="fixo-prod-serv-numero"><span>4</span></td><td class="fixo-prod-serv-descricao"><span>CX CERV HEINEKEN LATA 12X350ML</span></td><td class="fixo-prod-serv-qtd"><span>1,0000</span></td><td class="fixo-prod-serv-uc"><span>UN</span></td><td class="fixo-prod-serv-vb"><span>34,68</span></td></tr></table><table class="toggable box" style="background-color:#ECECEC"><tr><td><table class="box"><tr class="col-4"><td colspan="4"><label>Código do Produto</label><span>7896045501038</span></td><td colspan="4"><label>Código NCM</label><span>22030000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Código EX da TIPI</label><span></span></td><td colspan="4"><label>CFOP</label><span>5405</span></td><td colspan="4"><label>Outras Despesas Acessórias</label><span></span></td></tr><tr><td colspan="4"><label>Valor do Desconto</label><span></span></td><td colspan="4"><label>Valor Total do Frete</label><span></span></td><td colspan="4"><label>Valor do Seguro</label><span></span></td></tr></table><br><table class="box"><tr class="col-12"><td colspan="12"><label>
+                          Indicador de Composição do Valor Total da NF-e
+                        </label><span>
+                              1 - O valor do item (vProd) compõe o valor total da NF-e (vProd)
+                            </span></td></tr><tr class="col-3"><td colspan="4"><label>Código EAN Comercial</label><span>7896045501038</span></td><td colspan="4"><label>Unidade Comercial</label><span>UN</span></td><td colspan="4"><label>Quantidade Comercial</label><span>1,0000</span></td></tr><tr><td colspan="4"><label>Código EAN Tributável</label><span>7896045501038</span></td><td colspan="4"><label>Unidade Tributável</label><span>UN</span></td><td colspan="4"><label>Quantidade Tributável</label><span>1,0000</span></td></tr><tr><td colspan="4"><label>Valor unitário de comercialização</label><span>34,6800000000</span></td><td colspan="4"><label>Valor unitário de tributação</label><span>34,6800000000</span></td><td colspan="4"></td></tr><tr><td colspan="4"><label>Número do pedido de compra</label><span></span></td><td colspan="4"><label>Item do pedido de compra</label><span></span></td><td><label>Valor Aproximado dos Tributos</label><span></span></td></tr><tr><td colspan="4"><label>Número da FCI</label><span></span></td></tr><tr><td colspan="12"><fieldset><legend>ICMS Normal e ST</legend><table class="box"><tr class="col-3"><td><label>Origem da Mercadoria</label><span>0 - Nacional</span></td><td colspan="2"><label>Tributação do ICMS</label><span>60 - ICMS cobrado anteriormente por substituição tributária</span></td><td><label>Valor da BC do ICMS ST retido</label><span></span></td></tr><tr class="col-3"><td><label>Valor do ICMS ST retido</label><span></span></td></tr></table></fieldset></td></tr><tr><td colspan="12"><fieldset><legend class="toggle">PIS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>04 - Operação Tributável (tributação monofásica (alíquota zero))</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr><td colspan="12"><fieldset><legend class="toggle">COFINS</legend><div class="toggable"><table class="box"><tr class="col-3"><td colspan="3"><label>CST</label><span>04 - Operação Tributável (tributação monofásica (alíquota zero))</span></td></tr></table></div></fieldset></td></tr><tr></tr><tr></tr><tr></tr><tr><td colspan="12"></td></tr></table></td></tr></table></div></fieldset></div></div><div id="aba_nft_10" class="nft"></div></div></body></html>
+                    <br />
+                    <input type="button" class="button" value="Imprimir NF-e" onclick="imprimirNFe();" id="btnImprimirNFe"/>
+                    &nbsp;
+                    <input type="button" class="button" value="Imprimir Autorização de Uso" onclick="abrirAutorizacaoUso();"  id="btnImprimirAutorizacaoUso"/>
+                    
+                    <input type="button" class="button" value="Visualizar NFC-e" onclick="visualizarNfce();" />
+                    
+                    <br />
+                    <br />
+                    
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <br />
+                    <table>
+                        <tr>
+                            <td width="200">
+                                <b>Administração Tributária:</b>
+                            </td>
+                            <td>
+                                &nbsp;Receita Estadual RS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Data/Hora da Consulta:</b>
+                            </td>
+                            <td>
+                                &nbsp;30/12/2015&nbsp;19:51:31
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript" src="../../include/AAE_fim.js"></script>
+
+</body>
+</html>
