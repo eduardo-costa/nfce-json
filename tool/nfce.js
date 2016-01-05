@@ -9,32 +9,31 @@ var NFCE =
 	parser: null,
 	
 	/**
+	Parser UF to sample the parser object.
+	//*/
+	parserUF: "rs",
+	
+	/**
 	Internals.
 	//*/
 	req: null,
 		
 	/**
-	Init this parser class.
-	//*/
-	init: function(p_parser)
-	{
-		this.parser = p_parser;
-		if(this.req==null)		this.req = require("request");		
-	},
-	
-	/**
 	Loads the json data from a given access key
 	//*/
-	load:function(p_key,p_callback)
+	load:function(p_key,p_uf,p_callback)
 	{
+		
 		var ref = this;
 		
-		var p = ref.parser;
+		if(ref.req==null) ref.req = require("request");
+		
+		var p = ref.parser[p_uf];
 		
 		if(p==null)
 		{
-			console.log("NFCE> Error - Parser not defined.");
-			p_callback(null,new Error("Parser not defined."));
+			console.log("NFCE> Error - Parser not defined for ["+p_uf+"] state.");
+			p_callback(null,new Error("Parser not defined for ["+p_uf+"] state."));
 			return;
 		}
 		
@@ -45,8 +44,8 @@ var NFCE =
 		ref.post(p.action,function(p_res,p_err)
 		{
 			if(p_err!=null) { p_callback(null,p_err); return; }			
-			var o = ref.parser.parse(p_res);			
-			o.chaveNFe = p_key;			
+			var o = p.parse(p_res);
+			o.chaveNFe = p_key;
 			if(p_callback!=null) p_callback(o,null);			
 		},p.data,p.headers);
 	},

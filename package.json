@@ -1,11 +1,11 @@
 {
   "name": "nfce-json",
   
-  "version": "1.0.1",
+  "version": "1.0.3",
   
   "description": "Loader and parser of the Brazilian NFCe data as JSON",
   
-  "main": "test/app.js",  
+  "main": "tool/index.js",
   
   "repository": 
   {
@@ -23,13 +23,7 @@
   },
   
   "homepage": "https://github.com/eduardo-costa/nfce-json",
-  
-  "bin": 
-  {
-    "nfce-json": 	"tool/nfce.js",
-	"nfce-rs":  	"tool/nfce-rs.js"
-  },
-  
+    
   "dependencies": 
   {
 	"request": "^2.67.0",	

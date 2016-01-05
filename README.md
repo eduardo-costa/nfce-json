@@ -10,11 +10,8 @@ Loader and parser of the Brazilian NFCe data as JSON.
 ```js
 var NFCE 		= require("nfce-json").NFCE;
 
-//nfce-xx where 'xx' is the UF of Brazil
-var NFCEParser  = require("nfce-rs").NFCEParser; 
-
-NFCE.init(NFCEParser);
-NFCE.load("nfce-code-here",
+//Loads the desired NCFe code for the given Brazillian state.
+NFCE.load("nfce-code-here","rs",
 function(p_json,p_err)
 {
 	var json_str = JSON.stringify(p_json,null," ");
@@ -26,4 +23,4 @@ function(p_json,p_err)
 
 # Caveats
 
- Only available for the RS state.
+ Only available for the RS state for now.

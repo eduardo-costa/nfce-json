@@ -1,9 +1,7 @@
 
-var NFCE 		= require("../tool/nfce.js").NFCE;
-var NFCEParser  = require("../tool/nfce-rs.js").NFCEParser;
+var NFCE 		= require("nfce-json").NFCE;
 
-NFCE.init(NFCEParser);
-NFCE.load("43151293015006000890651050000132661681112959",
+NFCE.load("43151293015006000890651050000132661681112959","rs",
 function(p_res,p_err)
 {
 	var json = JSON.stringify(p_res,null," ");
