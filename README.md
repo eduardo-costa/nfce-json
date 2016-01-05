@@ -1,5 +1,5 @@
 # nfce-json
-Client for downloading Brazilian NFCe data in Json format.
+Loader and parser of the Brazilian NFCe data as JSON.
 
 # Install
 
@@ -8,16 +8,22 @@ Client for downloading Brazilian NFCe data in Json format.
 # Usage  
   
 ```js
-var NFCE 		= require("nfce.js").NFCE;
-var NFCEParser  = require("nfce-rs.js").NFCEParser; //nfce-xx where 'xx' is the UF of Brazil
+var NFCE 		= require("nfce-json").NFCE;
+
+//nfce-xx where 'xx' is the UF of Brazil
+var NFCEParser  = require("nfce-rs").NFCEParser; 
 
 NFCE.init(NFCEParser);
 NFCE.load("nfce-code-here",
-function(p_res,p_err)
+function(p_json,p_err)
 {
-	var json = JSON.stringify(p_res,null," ");
+	var json_str = JSON.stringify(p_json,null," ");
 	var fs = require("fs");
-	fs.writeFileSync("output.json",json);
-	console.log(p_res);
+	fs.writeFileSync("output.json",json_str);
+	console.log(p_json);
 });
 ```
+
+# Caveats
+
+ Only available for the RS state.

@@ -1,9 +1,9 @@
 {
   "name": "nfce-json",
   
-  "version": "1.0.0",
+  "version": "1.0.1",
   
-  "description": "Webservice for loading and displaying Brazilian NFCe data as JSON",
+  "description": "Loader and parser of the Brazilian NFCe data as JSON",
   
   "main": "test/app.js",  
   
@@ -26,8 +26,8 @@
   
   "bin": 
   {
-    "nfce": 	"tool/nfce.js",
-	"nfce-rs":  "tool/nfce-rs.js"
+    "nfce-json": 	"tool/nfce.js",
+	"nfce-rs":  	"tool/nfce-rs.js"
   },
   
   "dependencies": 
