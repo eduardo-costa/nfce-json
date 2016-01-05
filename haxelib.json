@@ -3,9 +3,9 @@
   "url": "https://github.com/eduardo-costa/nfce-json",
   "license": "MIT",
   "tags": ["nfce","json","parser"],
-  "description": "Convert NCFe data to JSON",
-  "version": "0.1.0",
-  "releasenotes": "0.1.0",
+  "description": "Converts NCFe data to JSON",
+  "version": "1.0.0",
+  "releasenotes": "1.0.0",
   "contributors": ["eduardo-costa"],
   "dependencies": 
   {
